@@ -97,7 +97,7 @@
       for (let i = 0; i < 6; i++) {
         html += '<tr>';
         for (let j = 0; j < 7; j++) {
-          if (i === 0 && j < startingDay) {
+          if (i === 0 && j < (startingDay - 1)) {
             html += '<td></td>';
           } else if (day > totalDays) {
             html += `<td></td>`
