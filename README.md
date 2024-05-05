@@ -1,2 +1,2 @@
 # Blank_Calendar
-Generates a blank calendar that can be saved as an image to be printed or drawn onto
+Generate blank calendars that can be saved as an image or printed
