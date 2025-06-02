@@ -165,13 +165,13 @@
       const firstDay = new Date(year, month, 1);
       const lastDay = new Date(year, month + 1, 0);
       const totalDays = lastDay.getDate();
-      let startingDay = firstDay.getDay(); // Returns 0 to 6 (sunday is 0 for some reason)
+      let startingDay = firstDay.getDay(); // Returns 0 to 6 (Sunday is 0 for some reason)
       let weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
       // Change setup if user starts the week on a Sunday
       if (!startSunday) {
         startingDay = startingDay - 1;
-        if (startingDay <= 0) startingDay = 6;
+        if (startingDay < 0) startingDay = 6;
         weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
       }
 
