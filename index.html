@@ -136,6 +136,7 @@
       <div>
         <button class="btn btn-outline-light" onclick="goToPreviousMonth()"><i class="fa fa-chevron-left"></i> Previous Month</button>
         <button class="btn btn-outline-light" onclick="toggleStartDay()"><i class="fa fa-calendar"></i> Change Start Day</button>
+        <button class="btn btn-outline-light" onclick="goToThisMonth()"><i class="fa fa-refresh"></i> This Month</button>
         <button class="btn btn-outline-light" onclick="saveAsImage()"><i class="fa fa-file-image-o"></i> Save Image</button>
         <button class="btn btn-outline-light" onclick="printCalendar()"><i class="fa fa-print"></i> Print</button>
         <button class="btn btn-outline-light" onclick="goToNextMonth()">Next Month <i class="fa fa-chevron-right"></i></button>
@@ -164,13 +165,16 @@
       const firstDay = new Date(year, month, 1);
       const lastDay = new Date(year, month + 1, 0);
       const totalDays = lastDay.getDate();
-      let startingDay = firstDay.getDay() - 1;
-      let weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+      let startingDay = firstDay.getDay(); // Returns 0 to 6 (sunday is 0 for some reason)
+      let weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+      console.log(firstDay, startingDay);
 
       // Change setup if user starts the week on a Sunday
-      if (startSunday) {
-        startingDay = startingDay + 1;
-        weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      if (!startSunday) {
+        startingDay = startingDay - 1;
+        if (startingDay <= 0) startingDay = 6;
+        weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
       }
 
       // Generate weekday name headers
@@ -180,15 +184,18 @@
       }
       html += '</tr>';
 
+      console.log(startingDay);
+
       document.getElementById('weekdays').innerHTML = html;
 
       // Generate calendar days based on start day, adding whitespace for unused days
       html = '';
       let day = 1;
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < 6; i++) { // 6 is number of rows
         html += '<tr>';
-        for (let j = 0; j < 7; j++) {
-          if (i === 0 && j < (startingDay)) {
+        for (let j = 0; j < 7; j++) { // 7 is number of columns
+
+          if (i === 0 && j < startingDay) {
             html += '<td></td>';
           } else if (day > totalDays) {
             html += `<td>&nbsp;</td>`
@@ -196,6 +203,7 @@
             html += `<td>${day}</td>`;
             day++;
           }
+
         }
         html += '</tr>';
       }
@@ -213,11 +221,22 @@
 
     }
 
+    // Funciton to reset back to current month
+    function goToThisMonth() {
+
+      const currentDate = new Date();
+      generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
+
+    }
+
     // Function to go to the previous month
     function goToPreviousMonth() {
 
       currentMonth--;
-      if (currentMonth < 0) currentMonth = 11;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear -= 1;
+      }
       generateCalendar(currentYear, currentMonth);
 
     }
@@ -226,7 +245,10 @@
     function goToNextMonth() {
 
       currentMonth++;
-      if (currentMonth > 11) currentMonth = 0;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear += 1;
+      }
       generateCalendar(currentYear, currentMonth);
 
     }
@@ -291,8 +313,7 @@
     }
 
     // Generate the current month's calendar
-    const currentDate = new Date();
-    generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
+    goToThisMonth();
 
 
   </script>
