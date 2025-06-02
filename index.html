@@ -168,8 +168,6 @@
       let startingDay = firstDay.getDay(); // Returns 0 to 6 (sunday is 0 for some reason)
       let weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-      console.log(firstDay, startingDay);
-
       // Change setup if user starts the week on a Sunday
       if (!startSunday) {
         startingDay = startingDay - 1;
@@ -183,8 +181,6 @@
         html += `<td>${day}</td>`;
       }
       html += '</tr>';
-
-      console.log(startingDay);
 
       document.getElementById('weekdays').innerHTML = html;
 
